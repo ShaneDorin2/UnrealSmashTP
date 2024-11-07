@@ -4,6 +4,7 @@
 #include "Match/MatchGameMode.h"
 
 #include "SourceControlOperations.h"
+#include "Arena/AreaSettings.h"
 #include "Arena/ArenaPlayerStart.h"
 #include "Characters/SmashCharacter.h"
 #include "Kismet/GameplayStatics.h"
@@ -53,20 +54,22 @@ void AMatchGameMode::BeginPlay() // overriding BeginPlay
 
 TSubclassOf<ASmashCharacter> AMatchGameMode::GetSmashCharacterClassFromInputType(EAutoReceiveInput::Type InputType) const
 {
+	const UAreaSettings* ArenaSettings = GetDefault<UAreaSettings>();
+	
 	// based on the input type, return a SmashPlayerSub-class (pulled from the UPROPERTY inputs in the details window).
 	switch (InputType)
 	{
 	case EAutoReceiveInput::Player0:
-		return SmashCharacterClassP0;
+		return ArenaSettings->SmashCharacterClassP0;
 		
 	case EAutoReceiveInput::Player1:
-		return SmashCharacterClassP1;
+		return ArenaSettings->SmashCharacterClassP1;
 		
 	case EAutoReceiveInput::Player2:
-		return SmashCharacterClassP2;
+		return ArenaSettings->SmashCharacterClassP2;
 		
 	case EAutoReceiveInput::Player3:
-		return SmashCharacterClassP3;
+		return ArenaSettings->SmashCharacterClassP3;
 		
 	default:
 		return nullptr;

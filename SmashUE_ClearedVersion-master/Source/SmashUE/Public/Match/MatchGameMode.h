@@ -36,7 +36,7 @@ protected:
 	TArray<ASmashCharacter*> CharactersInsideArena;
 	
 	// adds SmashCharacter variables that can be changed in the Details window (like inspector in Unity)
-	UPROPERTY(EditAnywhere)
+	/*UPROPERTY(EditAnywhere)
 	TSubclassOf<ASmashCharacter> SmashCharacterClassP0;
 
 	UPROPERTY(EditAnywhere)
@@ -47,4 +47,5 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ASmashCharacter> SmashCharacterClassP3;
+	*/
 };

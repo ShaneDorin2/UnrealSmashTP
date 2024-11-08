@@ -6,6 +6,7 @@
 #include "UObject/Object.h"
 #include "SmashCharacterStateMachine.generated.h"
 
+class ASmashCharacter;
 /**
  * 
  */
@@ -13,4 +14,13 @@ UCLASS()
 class SMASHUE_API USmashCharacterStateMachine : public UObject
 {
 	GENERATED_BODY()
+
+public:
+	void Init(ASmashCharacter* InCharacter);
+
+	ASmashCharacter* GetCharacter() const;
+
+protected:
+	UPROPERTY()
+	TObjectPtr<ASmashCharacter> Character;
 };

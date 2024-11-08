@@ -48,7 +48,9 @@ protected:
 #pragma region State Machine
 
 public:
-	void CreateStateMashine();
+	void CreateStateMachine();
+
+	void InitStateMachine();
 
 protected:
 	UPROPERTY()

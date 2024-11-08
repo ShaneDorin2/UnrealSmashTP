@@ -17,7 +17,9 @@ ASmashCharacter::ASmashCharacter()
 void ASmashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	CreateStateMashine();
+	CreateStateMachine();
+
+	InitStateMachine();
 }
 
 // Called every frame
@@ -51,7 +53,7 @@ void ASmashCharacter::RotateMeshUsingOrientX() const
 	GetMesh()->SetRelativeRotation(Rotation);
 }
 
-void ASmashCharacter::CreateStateMashine()
+void ASmashCharacter::CreateStateMachine()
 {
 	StateMachine = NewObject<USmashCharacterStateMachine>(this);
 }

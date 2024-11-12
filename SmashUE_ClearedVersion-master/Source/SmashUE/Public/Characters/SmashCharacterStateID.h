@@ -4,4 +4,10 @@
 
 #include "CoreMinimal.h"
 
-
+UENUM()
+enum class ESmashCharacterStateID : uint8
+{
+	None = 0,
+	Idle,
+	Walk
+};

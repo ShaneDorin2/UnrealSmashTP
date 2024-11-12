@@ -2,7 +2,8 @@
 
 
 #include "SmashCharacterState.h"
-#include "SmashCharacterStateID.h"
+
+#include "Characters/SmashCharacterStateID.h"
 #include "Characters/SmashCharacterStateMachine.h"
 
 // Sets default values for this component's properties

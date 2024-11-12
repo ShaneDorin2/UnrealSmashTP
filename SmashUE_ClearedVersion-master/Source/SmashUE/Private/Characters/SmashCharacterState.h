@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Characters/SmashCharacterStateID.h"
 #include "SmashCharacterState.generated.h"
 class USmashCharacterStateMachine;
-class ESmashCharacterStateID; // I had to add this
 class ASmashCharacter;
 class ASmashCharacterStateMachine;
 

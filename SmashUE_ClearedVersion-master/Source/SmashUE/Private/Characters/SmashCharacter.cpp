@@ -25,6 +25,7 @@ void ASmashCharacter::BeginPlay()
 void ASmashCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	TickStateMachine(DeltaTime);
 	RotateMeshUsingOrientX();
 
 }
@@ -59,7 +60,12 @@ void ASmashCharacter::CreateStateMachine()
 
 void ASmashCharacter::InitStateMachine()
 {
-	StateMachine->Init(this); 
+	StateMachine->Init(this);
+}
+
+void ASmashCharacter::TickStateMachine(float DeltaTime) const
+{
+	StateMachine->Tick(DeltaTime);
 }
 
 

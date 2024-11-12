@@ -27,8 +27,20 @@ void USmashCharacterStateIdle::StateExit(ESmashCharacterStateID NextStateID)
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		3.f,
-		FColor::Cyan,
+		FColor::Red,
 		TEXT("Exit StateIdle")
+	);
+}
+
+void USmashCharacterStateIdle::StateTick(float DeltaTime)
+{
+	Super::StateTick(DeltaTime);
+
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		0.1f,
+		FColor::Green,
+		TEXT("Tick StateIDLE")
 	);
 }
 

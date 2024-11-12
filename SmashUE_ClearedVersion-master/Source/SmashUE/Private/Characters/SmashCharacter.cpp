@@ -57,7 +57,9 @@ void ASmashCharacter::CreateStateMachine()
 	StateMachine = NewObject<USmashCharacterStateMachine>(this);
 }
 
-void ASmashCharacter::InitStateMachine(){}
+void ASmashCharacter::InitStateMachine()
+{
+}
 
 
 

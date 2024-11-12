@@ -18,7 +18,6 @@ void ASmashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	CreateStateMachine();
-
 	InitStateMachine();
 }
 
@@ -57,4 +56,8 @@ void ASmashCharacter::CreateStateMachine()
 {
 	StateMachine = NewObject<USmashCharacterStateMachine>(this);
 }
+
+void ASmashCharacter::InitStateMachine(){}
+
+
 

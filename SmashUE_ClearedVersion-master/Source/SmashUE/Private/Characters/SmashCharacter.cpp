@@ -59,6 +59,7 @@ void ASmashCharacter::CreateStateMachine()
 
 void ASmashCharacter::InitStateMachine()
 {
+	StateMachine->Init(this); 
 }
 
 

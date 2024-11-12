@@ -22,7 +22,7 @@ ASmashCharacter* USmashCharacterStateMachine::GetCharacter() const
 
 void USmashCharacterStateMachine::FindStates()
 {
-	TArray<UActorComponent*> FoundComponents = Character->K2_GetComponentsByClass(USmashCharacterStateMachine::StaticClass());
+	TArray<UActorComponent*> FoundComponents = Character->K2_GetComponentsByClass(USmashCharacterState::StaticClass());
 	for (UActorComponent* StateComponent : FoundComponents)
 	{
 		USmashCharacterState* State = Cast<USmashCharacterState>(StateComponent);

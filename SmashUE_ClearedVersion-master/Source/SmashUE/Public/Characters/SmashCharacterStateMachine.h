@@ -3,10 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SmashCharacterStateID.h"
 #include "UObject/Object.h"
 #include "SmashCharacterStateMachine.generated.h"
 
-enum class ESmashCharacterStateID : uint8;
+//enum class ESmashCharacterStateID : uint8;
 class USmashCharacterState;
 class ASmashCharacter;
 /**

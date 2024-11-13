@@ -4,6 +4,7 @@
 #include "Characters/States/SmashCharacterStateWalk.h"
 
 #include "Characters/SmashCharacter.h"
+#include "GameFramework/PawnMovementComponent.h"
 
 ESmashCharacterStateID USmashCharacterStateWalk::GetStateID()
 {
@@ -39,6 +40,8 @@ void USmashCharacterStateWalk::StateExit(ESmashCharacterStateID NextStateID)
 void USmashCharacterStateWalk::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
+
+	Character->AddMovementInput(FVector(1, 0, 0), MoveSpeedMax);
 
 	GEngine->AddOnScreenDebugMessage(
 		-1,

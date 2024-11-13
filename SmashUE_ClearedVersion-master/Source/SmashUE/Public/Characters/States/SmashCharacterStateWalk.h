@@ -26,5 +26,5 @@ protected:
 	UAnimMontage* WalkMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int MoveSpeedMax;
+	float MoveSpeedMax;
 };

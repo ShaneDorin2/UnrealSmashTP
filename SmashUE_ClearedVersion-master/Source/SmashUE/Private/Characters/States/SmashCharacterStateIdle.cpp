@@ -11,7 +11,8 @@ ESmashCharacterStateID USmashCharacterStateIdle::GetStateID()
 void USmashCharacterStateIdle::StateEnter(ESmashCharacterStateID PreviousStateID)
 {
 	Super::StateEnter(PreviousStateID);
-
+	
+	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		3.f,

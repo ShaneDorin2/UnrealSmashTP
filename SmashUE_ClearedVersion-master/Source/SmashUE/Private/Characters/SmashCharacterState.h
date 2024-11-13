@@ -19,7 +19,7 @@ public:
 	// Sets default values for this component's properties
 	USmashCharacterState();
 
-	virtual ESmashCharacterStateID GetStateID(); // why text red ?
+	virtual ESmashCharacterStateID GetStateID(); 
 
 	virtual void StateInit(USmashCharacterStateMachine* InStateMachine);
 

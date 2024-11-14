@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "MatchGameMode.generated.h"
 
+class UInputMappingContext;
+class USmashCharacterInputData;
 class ASmashCharacter;
 class AArenaPlayerStart; // this is a forward
 
@@ -22,6 +24,10 @@ public:
 	virtual void BeginPlay() override;
 	
 private:
+	USmashCharacterInputData* LoadInputDataFromConfig();
+
+	UInputMappingContext* LoadInputMappingContextFromConfig();
+	
 	// a function that takes in a REFERENCE of an array of POINTERS of arenaPlayerStart objects
 	void FindPlayerStartActionInArena(TArray<AArenaPlayerStart*>& ResultsActors );
 

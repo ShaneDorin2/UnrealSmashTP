@@ -6,11 +6,20 @@
 #include "Engine/DeveloperSettings.h"
 #include "SmashCharacterSettings.generated.h"
 
+class USmashCharacterInputData;
+class UInputMappingContext;
 /**
  * 
  */
-UCLASS()
+UCLASS(Config = Game, DefaultConfig, meta = (DisplayName = "Smash Character Settings"))
 class SMASHUE_API USmashCharacterSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
+
+	public:
+	UPROPERTY(Config, EditAnywhere, Category="Input")
+	TSoftObjectPtr<USmashCharacterInputData> InputData;
+	
+	UPROPERTY(Config, EditAnywhere, Category = "Inputs")
+	TSoftObjectPtr<UInputMappingContext> InputMappingContext;
 };

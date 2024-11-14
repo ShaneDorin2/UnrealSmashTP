@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "SmashCharacter.generated.h"
 
+class USmashCharacterInputData;
+class UInputMappingContext;
 class USmashCharacterStateMachine;
 UCLASS()
 class SMASHUE_API ASmashCharacter : public ACharacter
@@ -59,5 +61,18 @@ protected:
 	TObjectPtr<USmashCharacterStateMachine> StateMachine;
 
 #pragma endregion
-	
+
+#pragma region InputData / Mapping Context
+
+	public:
+	UPROPERTY()
+	TObjectPtr<UInputMappingContext> InputMappingContext;
+
+	UPROPERTY()
+	TObjectPtr<USmashCharacterInputData> InputData;
+
+protected:
+	void SetupMappingContextIntoController() const;
+
+#pragma endregion
 };

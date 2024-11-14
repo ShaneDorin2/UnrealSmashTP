@@ -13,9 +13,8 @@
 // Sets default values
 ASmashCharacter::ASmashCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
@@ -32,7 +31,6 @@ void ASmashCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	TickStateMachine(DeltaTime);
 	RotateMeshUsingOrientX();
-
 }
 
 // Called to bind functionality to input
@@ -101,13 +99,27 @@ float ASmashCharacter::GetInputMoveX() const
 
 void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
 {
-	if(InputData == nullptr) return;
+	if (InputData == nullptr) return;
 
-	if(InputData->InputActionMoveX)
+	if (InputData->InputActionMoveX)
 	{
 		EnhancedInputComponent->BindAction(
 			InputData->InputActionMoveX,
 			ETriggerEvent::Started,
+			this,
+			&ASmashCharacter::OnInputMoveX
+		);
+
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveX,
+			ETriggerEvent::Triggered,
+			this,
+			&ASmashCharacter::OnInputMoveX
+		);
+
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveX,
+			ETriggerEvent::Completed,
 			this,
 			&ASmashCharacter::OnInputMoveX
 		);
@@ -118,10 +130,3 @@ void ASmashCharacter::OnInputMoveX(const FInputActionValue& InputActionValue)
 {
 	InputMoveX = InputActionValue.Get<float>();
 }
-
-
-
-
-
-
-

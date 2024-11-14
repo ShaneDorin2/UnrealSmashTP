@@ -10,6 +10,7 @@
 #include "Characters/SmashCharacterSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "InputMappingContext.h"
+#include "Characters/SmashCharacterInputData.h"
 
 void AMatchGameMode::FindPlayerStartActionInArena(TArray<AArenaPlayerStart*>& ResultsActors)
 {

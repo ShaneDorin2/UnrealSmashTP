@@ -17,7 +17,7 @@ class SMASHUE_API USmashCharacterSettings : public UDeveloperSettings
 	GENERATED_BODY()
 
 	public:
-	UPROPERTY(Config, EditAnywhere, Category="Input")
+	UPROPERTY(Config, EditAnywhere, Category="Inputs")
 	TSoftObjectPtr<USmashCharacterInputData> InputData;
 	
 	UPROPERTY(Config, EditAnywhere, Category = "Inputs")

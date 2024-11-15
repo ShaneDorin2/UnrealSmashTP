@@ -35,4 +35,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<USmashCharacterStateMachine> StateMachine;
+
+	UPROPERTY()
+	float InputMoveXThreshold;
 }; 

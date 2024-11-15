@@ -3,6 +3,7 @@
 
 #include "SmashCharacterState.h"
 
+#include "Characters/SmashCharacterSettings.h"
 #include "Characters/SmashCharacterStateID.h"
 #include "Characters/SmashCharacterStateMachine.h"
 
@@ -25,6 +26,8 @@ void USmashCharacterState::StateInit(USmashCharacterStateMachine* InStateMachine
 {
 	StateMachine = InStateMachine;
 	Character = InStateMachine -> GetCharacter();
+	const USmashCharacterSettings* CharacterSettings = GetDefault<USmashCharacterSettings>();
+	InputMoveXThreshold = CharacterSettings-> InputMoveXThreshold;
 	GEngine -> AddOnScreenDebugMessage(
 		-1,
 		3.f,

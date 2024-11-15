@@ -18,6 +18,8 @@ void USmashCharacterStateWalk::StateEnter(ESmashCharacterStateID PreviousStateID
 	Super::StateEnter(PreviousStateID);
 
 	Character->PlayAnimMontage(WalkMontage);
+
+	Character->InputMoveXFastEvent.AddDynamic(this, &USmashCharacterStateWalk::OnInputMoveXFast);
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -30,6 +32,8 @@ void USmashCharacterStateWalk::StateEnter(ESmashCharacterStateID PreviousStateID
 void USmashCharacterStateWalk::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
+
+	Character->InputMoveXFastEvent.RemoveDynamic(this, &USmashCharacterStateWalk::OnInputMoveXFast);
 
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -62,6 +66,12 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 		Character->AddMovementInput(FVector::ForwardVector, Character->GetOrientX());
 	}
 }
+
+void USmashCharacterStateWalk::OnInputMoveXFast(float X)
+{
+	StateMachine->ChangeState(ESmashCharacterStateID::Run);
+}
+
 
 
 

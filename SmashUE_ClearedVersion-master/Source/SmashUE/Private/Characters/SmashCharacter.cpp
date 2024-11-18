@@ -134,6 +134,16 @@ void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* Enha
 			&ASmashCharacter::OnInputMoveXFast
 			);
 	}
+
+	if (InputData -> InputActionJump)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionJump,
+			ETriggerEvent::Started,
+			this,
+			&ASmashCharacter::OnInputJump
+		);
+	}
 }
 
 void ASmashCharacter::OnInputMoveX(const FInputActionValue& InputActionValue)
@@ -142,7 +152,13 @@ void ASmashCharacter::OnInputMoveX(const FInputActionValue& InputActionValue)
 }
 
 void ASmashCharacter::OnInputMoveXFast(const FInputActionValue& InputActionValue)
-a{
+{
 	InputMoveX = InputActionValue.Get<float>();
 	InputMoveXFastEvent.Broadcast(InputMoveX);
 }
+
+void ASmashCharacter::OnInputJump()
+{
+	InputJumpEvent.Broadcast();
+}
+

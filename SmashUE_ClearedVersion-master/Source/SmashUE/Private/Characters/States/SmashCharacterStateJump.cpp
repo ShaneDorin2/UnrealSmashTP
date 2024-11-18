@@ -2,35 +2,70 @@
 
 
 #include "Characters/States/SmashCharacterStateJump.h"
+#include "Characters/SmashCharacter.h"
+#include "Characters/SmashCharacterSettings.h"
+#include "Characters/SmashCharacterStateMachine.h"
+#include "GameFramework/PawnMovementComponent.h"
 
-
-// Sets default values for this component's properties
-USmashCharacterStateJump::USmashCharacterStateJump()
+ESmashCharacterStateID USmashCharacterStateJump::GetStateID()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	return ESmashCharacterStateID::Jump;
 }
 
-
-// Called when the game starts
-void USmashCharacterStateJump::BeginPlay()
+void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID)
 {
-	Super::BeginPlay();
+	Super::StateEnter(PreviousStateID);
 
-	// ...
+	Character->PlayAnimMontage(JumpMontage);
+
+	Character->Jump();
+
+	//Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateJump::OnInputJump);
 	
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		3.f,
+		FColor::Cyan,
+		TEXT("Enter StateJump")
+	);
 }
 
-
-// Called every frame
-void USmashCharacterStateJump::TickComponent(float DeltaTime, ELevelTick TickType,
-                                             FActorComponentTickFunction* ThisTickFunction)
+void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	Super::StateExit(NextStateID);
 
-	// ...
+	//Character->InputJumpEvent.RemoveDynamic(this, &USmashCharacterStateJump::OnInputJump);
+
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		3.f,
+		FColor::Red,
+		TEXT("Exit StateJump")
+	);
 }
+
+void USmashCharacterStateJump::StateTick(float DeltaTime)
+{
+	Super::StateTick(DeltaTime);
+
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		0.1f,
+		FColor::Green,
+		TEXT("Tick StateJump")
+	);
+
+
+	if (Character->GetMovementComponent()->Velocity.Z < 0)
+	{
+       		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
+	}
+
+	if (Character->GetMovementComponent()->Velocity.Z == 0)
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
+	}
+}
+
+
 

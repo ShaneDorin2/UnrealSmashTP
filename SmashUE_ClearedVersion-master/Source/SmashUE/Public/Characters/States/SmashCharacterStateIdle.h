@@ -23,7 +23,10 @@ public:
 
 	UFUNCTION()
 	void OnInputMoveXFast(float InputMoveX);
-	
+
+	UFUNCTION()
+	void OnInputJump();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAnimMontage* IdleMontage;

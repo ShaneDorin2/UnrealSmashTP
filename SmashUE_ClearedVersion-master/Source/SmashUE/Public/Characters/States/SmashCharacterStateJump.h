@@ -23,5 +23,17 @@ public:
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float JumpWalkSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float JumpMaxHeight;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float JumpDuration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float JumpAirControl;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAnimMontage* JumpMontage;
 };

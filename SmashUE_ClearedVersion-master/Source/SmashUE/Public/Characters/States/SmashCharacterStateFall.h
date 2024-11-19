@@ -23,5 +23,17 @@ public:
 	
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float FallHorizontalMoveSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float FallAirControl;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float FallGravityScale;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float FallFastGravityScale;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAnimMontage* FallMontage;
 };

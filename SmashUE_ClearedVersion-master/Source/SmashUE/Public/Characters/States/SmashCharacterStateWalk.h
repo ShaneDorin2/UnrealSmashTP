@@ -14,7 +14,7 @@ class SMASHUE_API USmashCharacterStateWalk : public USmashCharacterState
 
 public:
 	virtual ESmashCharacterStateID GetStateID() override;
-
+	
 	virtual void StateEnter(ESmashCharacterStateID PreviousStateID) override;
 	
 	virtual void StateExit(ESmashCharacterStateID NextStateID) override;
@@ -23,6 +23,9 @@ public:
 
 	UFUNCTION()
 	void OnInputMoveXFast(float X);
+
+	UFUNCTION()
+	void OnInputJump();
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

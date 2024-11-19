@@ -15,6 +15,8 @@ void USmashCharacterStateRun::StateEnter(ESmashCharacterStateID PreviousStateID)
 	Super::StateEnter(PreviousStateID);
 
 	Character->PlayAnimMontage(RunMontage);
+
+	Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateRun::OnInputJump);
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -27,6 +29,8 @@ void USmashCharacterStateRun::StateEnter(ESmashCharacterStateID PreviousStateID)
 void USmashCharacterStateRun::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
+
+	Character->InputJumpEvent.RemoveDynamic(this, &USmashCharacterStateRun::OnInputJump);
 
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -57,6 +61,12 @@ void USmashCharacterStateRun::StateTick(float DeltaTime)
 		TEXT("Tick StateRun")
 	);
 }
+
+void USmashCharacterStateRun::OnInputJump()
+{
+	StateMachine->ChangeState(ESmashCharacterStateID::Jump);
+}
+
 
 
 

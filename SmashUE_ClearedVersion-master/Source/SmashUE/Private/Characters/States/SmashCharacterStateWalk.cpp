@@ -49,8 +49,6 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
 
-	Character->AddMovementInput(FVector(1, 0, 0), MoveSpeedMax * Character->GetOrientX());
-
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
@@ -65,7 +63,7 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 	else
 	{
 		Character->SetOrientX(Character->GetInputMoveX());
-		Character->AddMovementInput(FVector::ForwardVector, Character->GetOrientX());
+		Character->AddMovementInput(FVector(1, 0, 0), MoveSpeedMax * Character->GetOrientX());
 	}
 }
 

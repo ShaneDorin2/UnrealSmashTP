@@ -5,6 +5,7 @@
 #include "Characters/SmashCharacter.h"
 #include "Characters/SmashCharacterSettings.h"
 #include "Characters/SmashCharacterStateMachine.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 
 ESmashCharacterStateID USmashCharacterStateJump::GetStateID()
@@ -18,6 +19,8 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 
 	Character->PlayAnimMontage(JumpMontage);
 
+	Character->GetMovementComponent()->Velocity.Normalize();
+	Character-> GetCharacterMovement() -> JumpZVelocity = (2*JumpMaxHeight/JumpDuration);
 	Character->Jump();
 
 	//Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateJump::OnInputJump);
@@ -33,9 +36,7 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
-
-	//Character->InputJumpEvent.RemoveDynamic(this, &USmashCharacterStateJump::OnInputJump);
-
+	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		3.f,
@@ -47,7 +48,7 @@ void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
 void USmashCharacterStateJump::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
-
+	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
@@ -55,10 +56,12 @@ void USmashCharacterStateJump::StateTick(float DeltaTime)
 		TEXT("Tick StateJump")
 	);
 
+	Character->SetOrientX(Character->GetInputMoveX());
+	Character->AddMovementInput(FVector(1, 0, 0), Character->GetOrientX() * JumpAirControl);
 
 	if (Character->GetMovementComponent()->Velocity.Z < 0)
 	{
-       		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
+		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
 	}
 
 	if (Character->GetMovementComponent()->Velocity.Z == 0)

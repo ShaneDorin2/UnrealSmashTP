@@ -6,6 +6,7 @@
 #include "Characters/SmashCharacter.h"
 #include "Characters/SmashCharacterSettings.h"
 #include "Characters/SmashCharacterStateMachine.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 
 ESmashCharacterStateID USmashCharacterStateWalk::GetStateID()
@@ -18,6 +19,8 @@ void USmashCharacterStateWalk::StateEnter(ESmashCharacterStateID PreviousStateID
 	Super::StateEnter(PreviousStateID);
 
 	Character->PlayAnimMontage(WalkMontage);
+
+	Character->GetCharacterMovement()->MaxWalkSpeed = MoveSpeedMax;
 
 	Character->InputMoveXFastEvent.AddDynamic(this, &USmashCharacterStateWalk::OnInputMoveXFast);
 	Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateWalk::OnInputJump);
@@ -63,7 +66,12 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 	else
 	{
 		Character->SetOrientX(Character->GetInputMoveX());
-		Character->AddMovementInput(FVector(1, 0, 0), MoveSpeedMax * Character->GetOrientX());
+		Character->AddMovementInput(FVector(1, 0, 0),  Character->GetOrientX());
+	}
+
+	if (Character->GetMovementComponent()->Velocity.Z < 0)
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
 	}
 }
 

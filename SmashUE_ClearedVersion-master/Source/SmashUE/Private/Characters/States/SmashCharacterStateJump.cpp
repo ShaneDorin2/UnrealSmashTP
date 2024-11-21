@@ -21,6 +21,8 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 
 	Character->GetMovementComponent()->Velocity.Normalize();
 	Character-> GetCharacterMovement() -> JumpZVelocity = (2*JumpMaxHeight/JumpDuration);
+	Character->GetCharacterMovement() -> AirControl = JumpAirControl;
+	Character->GetCharacterMovement() -> MaxWalkSpeed = JumpWalkSpeed;
 	Character->Jump();
 
 	//Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateJump::OnInputJump);
@@ -55,9 +57,8 @@ void USmashCharacterStateJump::StateTick(float DeltaTime)
 		FColor::Green,
 		TEXT("Tick StateJump")
 	);
-
 	Character->SetOrientX(Character->GetInputMoveX());
-	Character->AddMovementInput(FVector(1, 0, 0), Character->GetOrientX() * JumpAirControl);
+  	Character->AddMovementInput(FVector(1, 0, 0),  Character->GetOrientX());
 
 	if (Character->GetMovementComponent()->Velocity.Z < 0)
 	{

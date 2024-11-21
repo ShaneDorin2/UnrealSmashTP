@@ -97,6 +97,11 @@ float ASmashCharacter::GetInputMoveX() const
 	return InputMoveX;
 }
 
+float ASmashCharacter::GetInputMoveY() const
+{
+	return InputMoveY;
+}
+
 void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
 {
 	if (InputData == nullptr) return;
@@ -123,6 +128,26 @@ void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* Enha
 			this,
 			&ASmashCharacter::OnInputMoveX
 		);
+	}
+
+	if (InputData -> InputActionMoveY)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveY,
+			ETriggerEvent::Started,
+			this,
+			&ASmashCharacter::OnInputMoveY
+			);
+	}
+
+	if (InputData -> InputActionMoveY)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveY,
+			ETriggerEvent::Completed,
+			this,
+			&ASmashCharacter::OnInputMoveY
+			);
 	}
 
 	if (InputData -> InputActionMoveXFast)
@@ -155,6 +180,11 @@ void ASmashCharacter::OnInputMoveXFast(const FInputActionValue& InputActionValue
 {
 	InputMoveX = InputActionValue.Get<float>();
 	InputMoveXFastEvent.Broadcast(InputMoveX);
+}
+
+void ASmashCharacter::OnInputMoveY(const FInputActionValue& InputActionValue)
+{
+	InputMoveY = InputActionValue.Get<float>();
 }
 
 void ASmashCharacter::OnInputJump()

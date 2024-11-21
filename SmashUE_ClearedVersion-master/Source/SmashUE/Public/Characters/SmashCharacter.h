@@ -85,6 +85,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInputJumpEvent);
 	
 public:
 	float GetInputMoveX() const;
+	float GetInputMoveY() const;
 
 	UPROPERTY()
 	FInputMoveEvent InputMoveXFastEvent;
@@ -96,13 +97,17 @@ protected:
 	UPROPERTY()
 	float InputMoveX = 0.f;
 
-private:
+	UPROPERTY()
+	float InputMoveY = 0.f;
 
+private:
 	void BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent);
 
 	void OnInputMoveX(const FInputActionValue& InputActionValue);
 
 	void OnInputMoveXFast(const FInputActionValue& InputActionValue);
+	
+	void OnInputMoveY(const FInputActionValue& InputActionValue);
 	
 	void OnInputJump();
 

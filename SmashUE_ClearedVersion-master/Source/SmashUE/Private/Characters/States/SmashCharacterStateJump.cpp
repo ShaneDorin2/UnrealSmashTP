@@ -57,8 +57,7 @@ void USmashCharacterStateJump::StateTick(float DeltaTime)
 		FColor::Green,
 		TEXT("Tick StateJump")
 	);
-	Character->SetOrientX(Character->GetInputMoveX());
-  	Character->AddMovementInput(FVector(1, 0, 0),  Character->GetOrientX());
+  	Character->AddMovementInput(FVector(1, 0, 0),  Character->GetInputMoveX());
 
 	if (Character->GetMovementComponent()->Velocity.Z < 0)
 	{

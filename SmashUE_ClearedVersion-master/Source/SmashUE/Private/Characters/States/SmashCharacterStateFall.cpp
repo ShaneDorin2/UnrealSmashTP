@@ -54,9 +54,8 @@ void USmashCharacterStateFall::StateTick(float DeltaTime)
 		FColor::Green,
 		TEXT("Tick StateFall")
 	);
-
-	Character->SetOrientX(Character->GetInputMoveX());
-	Character->AddMovementInput(FVector(1, 0, 0), Character->GetOrientX());
+	
+	Character->AddMovementInput(FVector(1, 0, 0), Character->GetInputMoveX());
 	
 	if (Character->GetInputMoveY() < 0)
 	{

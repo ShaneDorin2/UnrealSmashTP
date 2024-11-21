@@ -195,3 +195,13 @@ void ASmashCharacter::OnInputJump()
 	InputJumpEvent.Broadcast();
 }
 
+bool ASmashCharacter::IsFollowable()
+{
+	return true;
+}
+
+FVector ASmashCharacter::GetFollowPosition()
+{
+	return GetActorLocation();
+}
+

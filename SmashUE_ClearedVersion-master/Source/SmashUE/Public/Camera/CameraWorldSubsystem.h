@@ -50,6 +50,8 @@ protected:
 	TArray<UObject*> FollowTargets;
 
 	FVector CalculateAveragePositionBetweenTargets();
+
+	float CalculateGreatestDistanceBetweenTargets();
 	
 #pragma endregion
 
@@ -83,5 +85,24 @@ protected:
 	FVector CalculateWorldPositionFromViewportPosition(const FVector2D& ViewportPosition);
 	
 #pragma endregion 
-	
+
+#pragma region Zoom
+
+	protected:
+	UPROPERTY()
+	float CameraZoomYMin = 0.0f;
+
+	UPROPERTY()
+	float CameraZoomYMax = 0.0f;
+
+	UPROPERTY()
+	float CameraZoomDistanceBetweenTargetsMin = 300.f;
+
+	UPROPERTY()
+	float CameraZoomDistanceBetweenTargetsMax = 1500.f;
+
+	UFUNCTION()
+	void InitCameraZoomParameters();
+
+#pragma endregion
 };

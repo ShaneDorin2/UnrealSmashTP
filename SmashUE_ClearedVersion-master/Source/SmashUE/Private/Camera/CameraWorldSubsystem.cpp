@@ -112,15 +112,16 @@ void UCameraWorldSubsystem::ClampPositionIntoCameraBounds(FVector& Position)
 	{
 		Position.X = CameraBoundsMin.X + WorldBoundsWidth/2;
 	}
-	if (Position.Z > CameraBoundsMin.Y + WorldBoundsHeight/2)
+	if (Position.Z < CameraBoundsMin.Y + WorldBoundsHeight/2)
 	{
 		Position.Z = CameraBoundsMin.Y + WorldBoundsHeight/2;
 	}
+	
 	if (Position.X > CameraBoundsMax.X - WorldBoundsWidth/2)
 	{
  		Position.X = CameraBoundsMax.X - WorldBoundsWidth/2;
 	}
-	if (Position.Z < CameraBoundsMax.Y - WorldBoundsHeight/2)
+	if (Position.Z > CameraBoundsMax.Y - WorldBoundsHeight/2)
 	{
 		Position.Z = CameraBoundsMax.Y - WorldBoundsHeight/2;
 	}

@@ -9,7 +9,7 @@
 #include "Camera/CameraFollowTarget.h"
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
-#include "Materials/MaterialExpressionSmoothStep.h"
+#include "Camera/CameraSettings.h"
 
 void UCameraWorldSubsystem::PostInitialize()
 {
@@ -19,7 +19,8 @@ void UCameraWorldSubsystem::PostInitialize()
 void UCameraWorldSubsystem::OnWorldBeginPlay(UWorld& InWorld)
 {
 	Super::OnWorldBeginPlay(InWorld);
-	CameraMain = FindCameraByTag(TEXT("CameraMain"));
+	const UCameraSettings* CameraSettings = GetDefault<UCameraSettings>();
+	CameraMain = FindCameraByTag(CameraSettings->CameraMainTag);
 
 	AActor* CameraBoundActor = FindCameraBoundsActor();
 	if (CameraBoundActor != nullptr)
@@ -49,11 +50,13 @@ void UCameraWorldSubsystem::RemoveFollowTarget(UObject* FollowTarget)
 
 void UCameraWorldSubsystem::TickUpdateCameraZoom(float DeltaTime)
 {
+	const UCameraSettings* CameraSettings = GetDefault<UCameraSettings>();
+
 	if (CameraMain == nullptr) return;
 	float GreatestDistanceBetweenTargets = CalculateGreatestDistanceBetweenTargets();
 
-	float InverseLerp = (GreatestDistanceBetweenTargets - CameraZoomDistanceBetweenTargetsMin) /
-						(CameraZoomDistanceBetweenTargetsMax - CameraZoomDistanceBetweenTargetsMin);
+	float InverseLerp = (GreatestDistanceBetweenTargets - CameraSettings->DistanceBetweenTargetsMin) /
+						(CameraSettings->DistanceBetweenTargetsMax - CameraSettings->DistanceBetweenTargetsMin);
 
 	InverseLerp = FMath::Clamp(InverseLerp, 0.0f, 1.0f);
 
@@ -114,10 +117,11 @@ UCameraComponent* UCameraWorldSubsystem::FindCameraByTag(const FName& Tag) const
 
 AActor* UCameraWorldSubsystem::FindCameraBoundsActor()
 {
+	const UCameraSettings* CameraSettings = GetDefault<UCameraSettings>();
 	for (TActorIterator<AActor> It(this->GetWorld()); It; ++It )
 	{
 		AActor* Actor = *It;
-		if (Actor != nullptr && Actor->Tags.Contains("CameraBounds"))
+		if (Actor != nullptr && Actor->Tags.Contains(CameraSettings->CameraBoundsTag))
 		{
 			return Actor;
 		}
@@ -212,15 +216,16 @@ FVector UCameraWorldSubsystem::CalculateWorldPositionFromViewportPosition(const 
 
 void UCameraWorldSubsystem::InitCameraZoomParameters()
 {
+	const UCameraSettings* CameraSettings = GetDefault<UCameraSettings>();
 	for (TActorIterator<AActor> It(this->GetWorld()); It; ++It )
 	{
 		AActor* Actor = *It;
 		if (Actor != nullptr) {
-			if (Actor->Tags.Contains("CameraDistanceMin"))
+			if (Actor->Tags.Contains(CameraSettings->CameraDistanceMinTag))
 			{
 				CameraZoomYMin = Actor->GetActorLocation().Y;
 			}
-			if (Actor->Tags.Contains("CameraDistanceMax"))
+			if (Actor->Tags.Contains(CameraSettings->CameraDistanceMaxTag))
 			{
 				CameraZoomYMax = Actor->GetActorLocation().Y;
 			}

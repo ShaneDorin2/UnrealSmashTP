@@ -31,6 +31,8 @@ public:
 protected:
 	UPROPERTY()
 	TObjectPtr<UCameraComponent> CameraMain;
+
+	void TickUpdateCameraZoom(float DeltaTime);
 	
 	void TickUpdateCameraPosition(float DeltaTime);
 
@@ -106,3 +108,5 @@ protected:
 
 #pragma endregion
 };
+
+

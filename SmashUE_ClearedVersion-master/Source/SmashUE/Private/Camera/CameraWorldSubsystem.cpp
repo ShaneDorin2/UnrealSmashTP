@@ -9,6 +9,7 @@
 #include "Camera/CameraFollowTarget.h"
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "Materials/MaterialExpressionSmoothStep.h"
 
 void UCameraWorldSubsystem::PostInitialize()
 {
@@ -25,11 +26,14 @@ void UCameraWorldSubsystem::OnWorldBeginPlay(UWorld& InWorld)
 	{
 		InitCameraBounds(CameraBoundActor);
 	}
+
+	InitCameraZoomParameters();
 }
 
 void UCameraWorldSubsystem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	TickUpdateCameraZoom(DeltaTime);
 	TickUpdateCameraPosition(DeltaTime);
 }
 
@@ -41,6 +45,21 @@ void UCameraWorldSubsystem::AddFollowTarget(UObject* FollowTarget)
 void UCameraWorldSubsystem::RemoveFollowTarget(UObject* FollowTarget)
 {
 	FollowTargets.Remove(FollowTarget);
+}
+
+void UCameraWorldSubsystem::TickUpdateCameraZoom(float DeltaTime)
+{
+	if (CameraMain == nullptr) return;
+	float GreatestDistanceBetweenTargets = CalculateGreatestDistanceBetweenTargets();
+
+	float InverseLerp = (GreatestDistanceBetweenTargets - CameraZoomDistanceBetweenTargetsMin) /
+						(CameraZoomDistanceBetweenTargetsMax - CameraZoomDistanceBetweenTargetsMin);
+
+	InverseLerp = FMath::Clamp(InverseLerp, 0.0f, 1.0f);
+
+	FVector newLocation = CameraMain->GetComponentLocation();
+	newLocation.Y = FMath::Lerp(CameraZoomYMin, CameraZoomYMax, InverseLerp);
+	CameraMain->SetWorldLocation(newLocation);
 }
 
 void UCameraWorldSubsystem::TickUpdateCameraPosition(float DeltaTime)
@@ -63,6 +82,26 @@ FVector UCameraWorldSubsystem::CalculateAveragePositionBetweenTargets()
 		sumVector += FollowTarget->GetFollowPosition();
 	}
 	return sumVector / FollowTargets.Num();
+}
+
+float UCameraWorldSubsystem::CalculateGreatestDistanceBetweenTargets()
+{
+	float GreatestDistance = 0;
+	float DistanceHolder;
+	for (int i = 0; i < FollowTargets.Num(); i++)
+	{
+		for (int e = i+1; e < FollowTargets.Num(); e++)
+		{
+			ICameraFollowTarget* FollowTargetI = Cast<ICameraFollowTarget>(FollowTargets[i]);
+			if (!FollowTargetI) continue;
+			ICameraFollowTarget* FollowTargetE = Cast<ICameraFollowTarget>(FollowTargets[e]);
+			if (!FollowTargetE) continue;
+			DistanceHolder = FVector::Dist(FollowTargetI->GetFollowPosition(), FollowTargetE->GetFollowPosition());
+
+			if (DistanceHolder > GreatestDistance) GreatestDistance = DistanceHolder;
+		}
+	}
+	return GreatestDistance;
 }
 
 UCameraComponent* UCameraWorldSubsystem::FindCameraByTag(const FName& Tag) const
@@ -169,6 +208,24 @@ FVector UCameraWorldSubsystem::CalculateWorldPositionFromViewportPosition(const 
 	WorldPosition += CameraWorldProjectDir * YDistanceToCenter;
 
 	return WorldPosition;
+}
+
+void UCameraWorldSubsystem::InitCameraZoomParameters()
+{
+	for (TActorIterator<AActor> It(this->GetWorld()); It; ++It )
+	{
+		AActor* Actor = *It;
+		if (Actor != nullptr) {
+			if (Actor->Tags.Contains("CameraDistanceMin"))
+			{
+				CameraZoomYMin = Actor->GetActorLocation().Y;
+			}
+			if (Actor->Tags.Contains("CameraDistanceMax"))
+			{
+				CameraZoomYMax = Actor->GetActorLocation().Y;
+			}
+		}
+	}
 }
 
 

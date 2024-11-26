@@ -25,17 +25,21 @@ void ULocalMultiplayerSubsystem::CreateAndInitPlayer(ELocalMultiplayerInputMappi
 
 int ULocalMultiplayerSubsystem::GetAssignedPlayerIndexFromKeyboardProfileIndex(int KeyboardProfileIndex)
 {
+	if (KeyboardProfileIndex > LastAssignedPlayerIndex) return -1;
 	return PlayerIndexFromKeyboardProfileIndex[KeyboardProfileIndex];
 }
 
 int ULocalMultiplayerSubsystem::AssignNewPlayerToKeyboardProfile(int KeyboardProfileIndex)
 {
-	return -1;
+	LastAssignedPlayerIndex++;
+	PlayerIndexFromKeyboardProfileIndex[KeyboardProfileIndex] = LastAssignedPlayerIndex;
+	return LastAssignedPlayerIndex;
 }
 
-void ULocalMultiplayerSubsystem::AssignKeyboardMapping(int PlayerIndex, int KeyboardProfileIndex,
-	ELocalMultiplayerInputMappingType MappingType) const
+void ULocalMultiplayerSubsystem::AssignKeyboardMapping(int PlayerIndex, int KeyboardProfileIndex, ELocalMultiplayerInputMappingType MappingType) const
 {
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this->GetWorld(), PlayerIndex);
+	PlayerController->SetInputMappingContext(KeyboardProfileIndex, MappingType);
 }
 
 int ULocalMultiplayerSubsystem::GetAssignedPlayerIndexFromGamepadDeviceID(int DeviceID)

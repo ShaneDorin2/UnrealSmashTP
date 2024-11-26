@@ -33,7 +33,7 @@ public:
 
 protected:
 	UPROPERTY()
-	uint8 LastAssignedPlayerIndex = 0;
+	uint8 LastAssignedPlayerIndex = 0; // why is this init at 0. Should it not be -1 ??
 
 	UPROPERTY()
 	TMap<int, int> PlayerIndexFromKeyboardProfileIndex;

@@ -44,7 +44,7 @@ class LOCALMULTIPLAYER_API ULocalMultiplayerSettings : public UDeveloperSettings
 
 public:
 	UPROPERTY(Config, EditAnywhere, Category = "LocalMultiplayer")
-	TArray<FLocalMultiplayerProfileData> KeyBoardProfileData;
+	TArray<FLocalMultiplayerProfileData> KeyBoardProfilesData;
 
 	int GetNbKeyboardProfiles() const;
 

@@ -3,8 +3,10 @@
 
 #include "LocalMultiplayerSubsystem.h"
 
+#include "EnhancedInputSubsystemInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "LocalMultiplayerSettings.h"
+#include "EnhancedInputSubsystems.h"
 
 void ULocalMultiplayerSubsystem::CreateAndInitPlayer(ELocalMultiplayerInputMappingType MappingType)
 {
@@ -12,21 +14,15 @@ void ULocalMultiplayerSubsystem::CreateAndInitPlayer(ELocalMultiplayerInputMappi
 
 	for (int i =0; i < LocalMultiplayerSettings->GetNbKeyboardProfiles(); i++)
 	{
-		UGameplayStatics::CreatePlayer(this->GetWorld(), LastAssignedPlayerIndex, true);
-		LastAssignedPlayerIndex++;
-	}
-	LastAssignedPlayerIndex=0;
-	for (int i=0; i < LocalMultiplayerSettings->NbMaxGamepads; i++)
-	{
-		UGameplayStatics::CreatePlayer(this->GetWorld(), LastAssignedPlayerIndex, true);
-		LastAssignedPlayerIndex++;
+		UGameplayStatics::CreatePlayer(this->GetWorld(), i, true);
 	}
 }
 
 int ULocalMultiplayerSubsystem::GetAssignedPlayerIndexFromKeyboardProfileIndex(int KeyboardProfileIndex)
 {
-	if (KeyboardProfileIndex > LastAssignedPlayerIndex) return -1;
-	return PlayerIndexFromKeyboardProfileIndex[KeyboardProfileIndex];
+	if (PlayerIndexFromKeyboardProfileIndex.Contains(KeyboardProfileIndex)) return PlayerIndexFromKeyboardProfileIndex[KeyboardProfileIndex];
+	return -1;
+	
 }
 
 int ULocalMultiplayerSubsystem::AssignNewPlayerToKeyboardProfile(int KeyboardProfileIndex)
@@ -38,21 +34,35 @@ int ULocalMultiplayerSubsystem::AssignNewPlayerToKeyboardProfile(int KeyboardPro
 
 void ULocalMultiplayerSubsystem::AssignKeyboardMapping(int PlayerIndex, int KeyboardProfileIndex, ELocalMultiplayerInputMappingType MappingType) const
 {
+	const ULocalMultiplayerSettings* LocalMultiplayerSettings = GetDefault<ULocalMultiplayerSettings>();
+	
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this->GetWorld(), PlayerIndex);
-	PlayerController->SetInputMappingContext(KeyboardProfileIndex, MappingType);
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(LocalMultiplayerSettings->KeyBoardProfilesData[KeyboardProfileIndex].GetIMCFromType(MappingType),1);
 }
 
 int ULocalMultiplayerSubsystem::GetAssignedPlayerIndexFromGamepadDeviceID(int DeviceID)
 {
+	if (PlayerIndexFromGamepadProfileIndex.Contains(DeviceID)) return PlayerIndexFromGamepadProfileIndex[DeviceID];
 	return -1;
 }
 
 int ULocalMultiplayerSubsystem::AssignNewPlayerToGamepadDeviceID(int DeviceID)
 {
-	return -1;
+	LastAssignedPlayerIndex++;
+	PlayerIndexFromGamepadProfileIndex[DeviceID] = LastAssignedPlayerIndex;
+	return LastAssignedPlayerIndex;
 }
 
-void ULocalMultiplayerSubsystem::AssignGamepadInputMapping(int PlayerIndex,
-	ELocalMultiplayerInputMappingType MappingType) const
+void ULocalMultiplayerSubsystem::AssignGamepadInputMapping(int PlayerIndex, ELocalMultiplayerInputMappingType MappingType) const
 {
+	const ULocalMultiplayerSettings* LocalMultiplayerSettings = GetDefault<ULocalMultiplayerSettings>();
+	
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this->GetWorld(), PlayerIndex);
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(LocalMultiplayerSettings->GamepadProfileData.GetIMCFromType(MappingType), 1);
 }

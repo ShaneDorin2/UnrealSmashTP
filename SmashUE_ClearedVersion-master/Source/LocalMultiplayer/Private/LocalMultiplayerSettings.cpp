@@ -29,7 +29,7 @@ UInputMappingContext* FLocalMultiplayerProfileData::GetIMCFromType(ELocalMultipl
 
 int ULocalMultiplayerSettings::GetNbKeyboardProfiles() const
 {
-	return sizeof(KeyBoardProfileData);
+	return sizeof(KeyBoardProfilesData);
 }
 
 int ULocalMultiplayerSettings::FindKeyboardProfileIndexFromKey(const FKey& Key,
@@ -37,7 +37,7 @@ int ULocalMultiplayerSettings::FindKeyboardProfileIndexFromKey(const FKey& Key,
 {
 	for (int i = 0; i < GetNbKeyboardProfiles(); i++)
 	{
-		if (KeyBoardProfileData[i].ContainsKey(Key, MappingType))
+		if (KeyBoardProfilesData[i].ContainsKey(Key, MappingType))
 		{
 			return i;
 		}

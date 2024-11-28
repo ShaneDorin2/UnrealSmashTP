@@ -66,7 +66,7 @@ bool ULocalMultiplayerGameViewportClient::InputAxis(FViewport* Viewport, FInputD
 			LocalMultiplayerSubsystem->AssignGamepadInputMapping(PlayerIndex, ELocalMultiplayerInputMappingType::InGame);
 		}
 	}
-	else
+	else //input is keyboard
 	{
 		int KeyboeardProfileIndex = LocalMultiplayerSettings->FindKeyboardProfileIndexFromKey(Key, ELocalMultiplayerInputMappingType::InGame);
 		if (KeyboeardProfileIndex == -1) return false;

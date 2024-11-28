@@ -10,6 +10,7 @@
 #include "Characters/SmashCharacterSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "InputMappingContext.h"
+#include "LocalMultiplayerSubsystem.h"
 #include "Characters/SmashCharacterInputData.h"
 
 void AMatchGameMode::FindPlayerStartActionInArena(TArray<AArenaPlayerStart*>& ResultsActors)
@@ -33,7 +34,8 @@ void AMatchGameMode::FindPlayerStartActionInArena(TArray<AArenaPlayerStart*>& Re
 void AMatchGameMode::BeginPlay() // overriding BeginPlay
 {
 	Super::BeginPlay(); // includes everything in the original BeginPlay
-
+	CreateAndInitPlayers();
+	
 	TArray<AArenaPlayerStart*> PlayerStartsPoints;
 	FindPlayerStartActionInArena(PlayerStartsPoints); // the [&] indicates that it is taking in a REFERENCE (therefor does not need to return)
 	SpawnCharacters(PlayerStartsPoints);
@@ -77,6 +79,17 @@ TSubclassOf<ASmashCharacter> AMatchGameMode::GetSmashCharacterClassFromInputType
 	default:
 		return nullptr;
 	}
+}
+
+void AMatchGameMode::CreateAndInitPlayers() const
+{
+	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
+	if (GameInstance == nullptr) return;
+
+	ULocalMultiplayerSubsystem* LocalMultiplayerSubsystem = GameInstance->GetSubsystem<ULocalMultiplayerSubsystem>();
+	if (LocalMultiplayerSubsystem == nullptr) return;
+
+	LocalMultiplayerSubsystem->CreateAndInitPlayers(ELocalMultiplayerInputMappingType::InGame);
 }
 
 void AMatchGameMode::SpawnCharacters(const TArray<AArenaPlayerStart*>& SpawnPoints)

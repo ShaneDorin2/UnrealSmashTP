@@ -36,6 +36,8 @@ private:
 	// a function that returns a reference to a SmashCharacter actor based on an 'input type'
 	TSubclassOf<ASmashCharacter> GetSmashCharacterClassFromInputType(EAutoReceiveInput::Type InputType) const;
 
+	void CreateAndInitPlayers() const;
+
 protected:
 	//display a list of the Characters inside the arena(?)
 	UPROPERTY()

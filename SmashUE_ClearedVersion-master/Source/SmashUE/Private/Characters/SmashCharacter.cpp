@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Camera/CameraWorldSubsystem.h"
 #include "Characters/SmashCharacterInputData.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 ASmashCharacter::ASmashCharacter()
@@ -24,6 +25,7 @@ void ASmashCharacter::BeginPlay()
 	Super::BeginPlay();
 	CreateStateMachine();
 	InitStateMachine();
+	ConstraintToMovements2D();
 
 	GetWorld()->GetSubsystem<UCameraWorldSubsystem>()->AddFollowTarget(this);
 }
@@ -204,4 +206,13 @@ FVector ASmashCharacter::GetFollowPosition()
 {
 	return GetActorLocation();
 }
+
+void ASmashCharacter::ConstraintToMovements2D() const
+{
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+	GetCharacterMovement()->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Y);
+}
+
+
 

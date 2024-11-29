@@ -19,6 +19,7 @@ void USmashCharacterStateIdle::StateEnter(ESmashCharacterStateID PreviousStateID
 
 	Character->InputMoveXFastEvent.AddDynamic(this, &USmashCharacterStateIdle::OnInputMoveXFast);
 	Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateIdle::OnInputJump);
+
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -46,7 +47,7 @@ void USmashCharacterStateIdle::StateExit(ESmashCharacterStateID NextStateID)
 void USmashCharacterStateIdle::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
-
+	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,

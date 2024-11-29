@@ -114,12 +114,11 @@ private:
 	void OnInputJump();
 # pragma endregion
 
-#pragma region Camera Target
-	
+
 public:
 	
 	virtual bool IsFollowable() override;
 	virtual FVector GetFollowPosition() override;
+	void ConstraintToMovements2D() const;
 	
-#pragma endregion
 };

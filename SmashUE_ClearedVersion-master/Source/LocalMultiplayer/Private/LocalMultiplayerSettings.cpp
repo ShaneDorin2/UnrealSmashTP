@@ -8,7 +8,9 @@
 
 bool FLocalMultiplayerProfileData::ContainsKey(const FKey& Key, ELocalMultiplayerInputMappingType MappingType) const
 {
-	for (const FEnhancedActionKeyMapping& Mapping : GetIMCFromType(MappingType)->GetMappings())
+	const TArray<FEnhancedActionKeyMapping> Mappings =  GetIMCFromType(MappingType)->GetMappings();
+	if (&Mappings == nullptr) return false;
+	for (const FEnhancedActionKeyMapping& Mapping : Mappings)
 	{
 		if (Mapping.Key == Key) return true;
 	}
@@ -29,7 +31,7 @@ UInputMappingContext* FLocalMultiplayerProfileData::GetIMCFromType(ELocalMultipl
 
 int ULocalMultiplayerSettings::GetNbKeyboardProfiles() const
 {
-	return sizeof(KeyBoardProfilesData);
+	return KeyBoardProfilesData.Num();
 }
 
 int ULocalMultiplayerSettings::FindKeyboardProfileIndexFromKey(const FKey& Key,

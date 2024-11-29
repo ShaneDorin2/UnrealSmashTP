@@ -33,7 +33,7 @@ public:
 
 protected:
 	UPROPERTY()
-	uint8 LastAssignedPlayerIndex = -1; 
+	int LastAssignedPlayerIndex = -1; 
 
 	UPROPERTY()
 	TMap<int, int> PlayerIndexFromKeyboardProfileIndex;

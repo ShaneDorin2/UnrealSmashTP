@@ -6,6 +6,7 @@
 #include "Engine/GameViewportClient.h"
 #include "LocalMultiplayerGameViewportClient.generated.h"
 
+
 /**
  * 
  */
@@ -19,6 +20,6 @@ public:
 	
 	virtual bool InputKey(const FInputKeyEventArgs& EventArgs) override;
 	
-	virtual bool InputAxis(FViewport* Viewport, FInputDeviceId InputDevice, FKey Key, float Delta, float DeltaTime,
+	virtual bool InputAxis(FViewport* FViewport, FInputDeviceId InputDevice, FKey Key, float Delta, float DeltaTime,
 						   int32 NumSamples = 1, bool bGamepad = false) override;
 };

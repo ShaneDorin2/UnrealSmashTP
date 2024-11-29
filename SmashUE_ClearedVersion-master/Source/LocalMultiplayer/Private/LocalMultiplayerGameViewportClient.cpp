@@ -9,6 +9,13 @@
 #include "GameFramework/PlayerInput.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "GameFramework/PlayerController.h"
+#include "Engine/Engine.h"
+#include "InputKeyEventArgs.h"
+#include "InputCoreTypes.h"
+
+
+
 void ULocalMultiplayerGameViewportClient::PostInitProperties()
 {
 	Super::PostInitProperties();
@@ -18,9 +25,11 @@ void ULocalMultiplayerGameViewportClient::PostInitProperties()
 
 bool ULocalMultiplayerGameViewportClient::InputKey(const FInputKeyEventArgs& EventArgs)
 {
+	UGameInstance* UGameInstance = this->GetWorld()->GetGameInstance();
 	const ULocalMultiplayerSettings* LocalMultiplayerSettings = GetDefault<ULocalMultiplayerSettings>();
-	ULocalMultiplayerSubsystem* LocalMultiplayerSubsystem = UGameInstance::GetSubsystem<ULocalMultiplayerSubsystem>();
+	ULocalMultiplayerSubsystem* LocalMultiplayerSubsystem = UGameInstance->GetSubsystem<ULocalMultiplayerSubsystem>();
 	int PlayerIndex = -1;
+	
 	
 	if (EventArgs.Key.IsGamepadKey())
 	{
@@ -50,11 +59,12 @@ bool ULocalMultiplayerGameViewportClient::InputKey(const FInputKeyEventArgs& Eve
 	return true;
 }
 
-bool ULocalMultiplayerGameViewportClient::InputAxis(FViewport* Viewport, FInputDeviceId InputDevice, FKey Key,
+bool ULocalMultiplayerGameViewportClient::InputAxis(FViewport* FViewport, FInputDeviceId InputDevice, FKey Key,
 	float Delta, float DeltaTime, int32 NumSamples, bool bGamepad)
 {
+	UGameInstance* UGameInstance = this->GetWorld()->GetGameInstance();
 	const ULocalMultiplayerSettings* LocalMultiplayerSettings = GetDefault<ULocalMultiplayerSettings>();
-	ULocalMultiplayerSubsystem* LocalMultiplayerSubsystem = UGameInstance::GetSubsystem<ULocalMultiplayerSubsystem>();
+	ULocalMultiplayerSubsystem* LocalMultiplayerSubsystem = UGameInstance->GetSubsystem<ULocalMultiplayerSubsystem>();
 	int PlayerIndex = -1;
 	
 	if (bGamepad)

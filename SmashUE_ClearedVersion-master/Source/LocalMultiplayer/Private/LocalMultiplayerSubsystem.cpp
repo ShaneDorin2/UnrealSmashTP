@@ -16,7 +16,7 @@ void ULocalMultiplayerSubsystem::CreateAndInitPlayers(ELocalMultiplayerInputMapp
 	{
 		UGameplayStatics::CreatePlayer(this->GetWorld(), i, true);
 	}
-	for (int i =0; i < LocalMultiplayerSettings->NbMaxGamepads(); i++)
+	for (int i =0; i < LocalMultiplayerSettings->NbMaxGamepads; i++)
 	{
 		UGameplayStatics::CreatePlayer(this->GetWorld(), i+4, true);
 	}
@@ -32,7 +32,8 @@ int ULocalMultiplayerSubsystem::GetAssignedPlayerIndexFromKeyboardProfileIndex(i
 int ULocalMultiplayerSubsystem::AssignNewPlayerToKeyboardProfile(int KeyboardProfileIndex)
 {
 	LastAssignedPlayerIndex++;
-	PlayerIndexFromKeyboardProfileIndex[KeyboardProfileIndex] = LastAssignedPlayerIndex;
+	//PlayerIndexFromKeyboardProfileIndex[KeyboardProfileIndex] = LastAssignedPlayerIndex;
+ 	PlayerIndexFromKeyboardProfileIndex.Add(KeyboardProfileIndex, LastAssignedPlayerIndex);
 	return LastAssignedPlayerIndex;
 }
 

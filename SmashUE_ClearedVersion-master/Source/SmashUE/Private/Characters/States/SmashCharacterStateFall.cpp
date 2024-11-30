@@ -22,6 +22,8 @@ void USmashCharacterStateFall::StateEnter(ESmashCharacterStateID PreviousStateID
 	Character->GetCharacterMovement() -> AirControl = FallAirControl;
 	Character->GetCharacterMovement() -> MaxWalkSpeed = FallHorizontalMoveSpeed;
   	Character->GetCharacterMovement() -> GravityScale = FallGravityScale;
+
+	CurrentFallDuration = 0;
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -48,6 +50,8 @@ void USmashCharacterStateFall::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
 
+	CurrentFallDuration += DeltaTime;
+	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
@@ -64,6 +68,11 @@ void USmashCharacterStateFall::StateTick(float DeltaTime)
 
 	if (Character->GetMovementComponent()->Velocity.Z == 0)
 	{
+		if (CurrentFallDuration >= MinFallDurationToLeadToPRONEState)
+		{
+			StateMachine->ChangeState(ESmashCharacterStateID::OnGround);
+			return;
+		}
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
 	}
 }

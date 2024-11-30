@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Characters/SmashCharacterState.h"
-#include "SmashCharacterStateIdle.generated.h"
+#include "SmashCharacterStateOnGround.generated.h"
 
 
 UCLASS(ClassGroup=(SmashCharacterState), meta=(BlueprintSpawnableComponent))
-class SMASHUE_API USmashCharacterStateIdle : public USmashCharacterState
+class SMASHUE_API USmashCharacterStateOnGround : public USmashCharacterState
 {
 	GENERATED_BODY()
 
@@ -21,21 +21,13 @@ public:
 
 	virtual void StateTick(float DeltaTime) override;
 
-	UFUNCTION()
-	void OnInputMoveXFast(float InputMoveX);
-
-	UFUNCTION()
-	void OnInputJump();
-
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* IdleMontage;
+	UAnimMontage* FallDownMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAnimMontage* BreakDanceMontage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float MaxDanceTimer = 5.f;
+	float MaxProneDuration = 1;
 	
-	float CurrentDanceTimer; 
+	float CurrentProneDuration;
+	
 };

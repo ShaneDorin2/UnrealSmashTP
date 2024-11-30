@@ -36,4 +36,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAnimMontage* FallMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MinFallDurationToLeadToPRONEState = 1.5f;
+
+	float CurrentFallDuration;
 };

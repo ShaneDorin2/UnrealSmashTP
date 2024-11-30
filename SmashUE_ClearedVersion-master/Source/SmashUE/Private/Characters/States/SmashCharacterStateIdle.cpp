@@ -19,7 +19,8 @@ void USmashCharacterStateIdle::StateEnter(ESmashCharacterStateID PreviousStateID
 
 	Character->InputMoveXFastEvent.AddDynamic(this, &USmashCharacterStateIdle::OnInputMoveXFast);
 	Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateIdle::OnInputJump);
-
+	
+	CurrentDanceTimer = 0;
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -47,6 +48,13 @@ void USmashCharacterStateIdle::StateExit(ESmashCharacterStateID NextStateID)
 void USmashCharacterStateIdle::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
+
+	CurrentDanceTimer += DeltaTime;
+
+	if (CurrentDanceTimer > MaxDanceTimer && Character->GetCurrentMontage()!= BreakDanceMontage)
+	{
+		Character->PlayAnimMontage(BreakDanceMontage);
+	}
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,

@@ -35,6 +35,9 @@ protected:
 	UAnimMontage* BreakDanceMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* LandingMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxDanceTimer = 5.f;
 	
 	float CurrentDanceTimer; 

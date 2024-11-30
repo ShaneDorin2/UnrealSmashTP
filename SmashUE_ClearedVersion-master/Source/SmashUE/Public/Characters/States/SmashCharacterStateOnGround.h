@@ -26,6 +26,9 @@ protected:
 	UAnimMontage* FallDownMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* GettingUp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MaxProneDuration = 1;
 	
 	float CurrentProneDuration;

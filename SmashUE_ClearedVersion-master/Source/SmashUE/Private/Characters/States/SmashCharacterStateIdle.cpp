@@ -15,7 +15,13 @@ void USmashCharacterStateIdle::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 
-	Character->PlayAnimMontage(IdleMontage);
+	if (PreviousStateID == ESmashCharacterStateID::Fall)
+	{
+		Character->PlayAnimMontage(LandingMontage);
+	} else
+	{
+		Character->PlayAnimMontage(IdleMontage);
+	}
 
 	Character->InputMoveXFastEvent.AddDynamic(this, &USmashCharacterStateIdle::OnInputMoveXFast);
 	Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateIdle::OnInputJump);

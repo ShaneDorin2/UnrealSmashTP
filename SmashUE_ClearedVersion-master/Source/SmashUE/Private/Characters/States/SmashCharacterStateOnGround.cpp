@@ -45,6 +45,12 @@ void USmashCharacterStateOnGround::StateTick(float DeltaTime)
 
 	CurrentProneDuration += DeltaTime;
 
+	if (CurrentProneDuration > MaxProneDuration - GettingUp->CalculateSequenceLength() &&
+		Character->GetCurrentMontage() != GettingUp)
+	{
+		Character->PlayAnimMontage(GettingUp);
+	}
+
 	if (CurrentProneDuration > MaxProneDuration)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);

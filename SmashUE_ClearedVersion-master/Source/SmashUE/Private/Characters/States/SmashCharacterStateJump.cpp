@@ -17,7 +17,31 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 
-	Character->PlayAnimMontage(JumpMontage);
+	if (PreviousStateID == ESmashCharacterStateID::Jump ||
+		PreviousStateID == ESmashCharacterStateID::Fall)
+	{
+		IsSecondJump = true;
+	} else {IsSecondJump = false;}
+
+	if (IsSecondJump)
+	{
+		if (Character->GetMovementComponent()->Velocity.X * Character->GetOrientX() > 1)
+		{
+			Character->PlayAnimMontage(SecondJumpForwardMontage);
+		}
+		else if (Character->GetMovementComponent()->Velocity.X * Character->GetOrientX() < -1)
+		{
+			Character->PlayAnimMontage(SecondJumpBackwardMontage);
+		}
+		else
+		{
+			Character->PlayAnimMontage(SecondJumpMontage);
+		}
+	}
+	else
+	{
+		Character->PlayAnimMontage(JumpMontage);
+	}
 
 	Character->GetMovementComponent()->Velocity.Normalize();
 	Character-> GetCharacterMovement() -> JumpZVelocity = (2*JumpMaxHeight/JumpDuration);
@@ -25,7 +49,7 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 	Character->GetCharacterMovement() -> MaxWalkSpeed = JumpWalkSpeed;
 	Character->Jump();
 
-	//Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateJump::OnInputJump);
+	Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateJump::OnInputJump);
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -38,6 +62,8 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
+
+	Character->InputJumpEvent.RemoveDynamic(this, &USmashCharacterStateJump::OnInputJump);
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -68,6 +94,12 @@ void USmashCharacterStateJump::StateTick(float DeltaTime)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
 	}
+}
+
+void USmashCharacterStateJump::OnInputJump()
+{
+	if (IsSecondJump) return;
+	StateMachine->ChangeState(ESmashCharacterStateID::Jump);
 }
 
 

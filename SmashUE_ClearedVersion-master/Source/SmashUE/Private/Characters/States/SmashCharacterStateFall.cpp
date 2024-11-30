@@ -24,6 +24,8 @@ void USmashCharacterStateFall::StateEnter(ESmashCharacterStateID PreviousStateID
   	Character->GetCharacterMovement() -> GravityScale = FallGravityScale;
 
 	CurrentFallDuration = 0;
+
+	Character->InputJumpEvent.AddDynamic(this, &USmashCharacterStateFall::OnInputJump);
 	
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -37,6 +39,8 @@ void USmashCharacterStateFall::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
 
+	Character->InputJumpEvent.RemoveDynamic(this, &USmashCharacterStateFall::OnInputJump);
+	
 	Character->GetCharacterMovement()->GravityScale = 1;
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -75,6 +79,11 @@ void USmashCharacterStateFall::StateTick(float DeltaTime)
 		}
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
 	}
+}
+
+void USmashCharacterStateFall::OnInputJump()
+{
+	StateMachine->ChangeState(ESmashCharacterStateID::Jump);
 }
 
 

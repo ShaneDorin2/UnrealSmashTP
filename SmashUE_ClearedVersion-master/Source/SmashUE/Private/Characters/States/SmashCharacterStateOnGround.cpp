@@ -15,7 +15,7 @@ void USmashCharacterStateOnGround::StateEnter(ESmashCharacterStateID PreviousSta
 {
 	Super::StateEnter(PreviousStateID);
 
-	Character->PlayAnimMontage(FallDownMontage);
+	Character->PlayAnimMontage(FallDownMontage);  // <--- 1er animation
 
 	CurrentProneDuration = 0;
 	
@@ -45,7 +45,7 @@ void USmashCharacterStateOnGround::StateTick(float DeltaTime)
 
 	CurrentProneDuration += DeltaTime;
 
-	if (CurrentProneDuration > MaxProneDuration - GettingUp->CalculateSequenceLength() &&
+	if (CurrentProneDuration > MaxProneDuration - GettingUp->CalculateSequenceLength() &&  // <--- 2eme animation
 		Character->GetCurrentMontage() != GettingUp)
 	{
 		Character->PlayAnimMontage(GettingUp);

@@ -15,7 +15,7 @@ void USmashCharacterStateIdle::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 
-	if (PreviousStateID == ESmashCharacterStateID::Fall)
+	if (PreviousStateID == ESmashCharacterStateID::Fall)  // <---  Landing Animation
 	{
 		Character->PlayAnimMontage(LandingMontage);
 	} else
@@ -57,7 +57,7 @@ void USmashCharacterStateIdle::StateTick(float DeltaTime)
 
 	CurrentDanceTimer += DeltaTime;
 
-	if (CurrentDanceTimer > MaxDanceTimer && Character->GetCurrentMontage()!= BreakDanceMontage)
+	if (CurrentDanceTimer > MaxDanceTimer && Character->GetCurrentMontage()!= BreakDanceMontage) // <--- BreakDance Animation 
 	{
 		Character->PlayAnimMontage(BreakDanceMontage);
 	}

@@ -17,13 +17,14 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 
-	if (PreviousStateID == ESmashCharacterStateID::Jump ||
+	if (PreviousStateID == ESmashCharacterStateID::Jump ||  // <--- Double Jump
 		PreviousStateID == ESmashCharacterStateID::Fall)
 	{
 		IsSecondJump = true;
-	} else {IsSecondJump = false;}
+	}
+	else {IsSecondJump = false;}
 
-	if (IsSecondJump)
+	if (IsSecondJump) // <--- Double Jump Animations (3)
 	{
 		if (Character->GetMovementComponent()->Velocity.X * Character->GetOrientX() > 1)
 		{
@@ -96,7 +97,7 @@ void USmashCharacterStateJump::StateTick(float DeltaTime)
 	}
 }
 
-void USmashCharacterStateJump::OnInputJump()
+void USmashCharacterStateJump::OnInputJump()  // <--- Double Jump
 {
 	if (IsSecondJump) return;
 	StateMachine->ChangeState(ESmashCharacterStateID::Jump);
